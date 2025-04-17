@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CasoModels.Usuario>
+
+    @{
+    ViewData["Title"] = "Lista de Usuarios";
+    }
+
+    <h1>Usuarios</h1>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Crear nuevo usuario</a>
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nombre de usuario</th>
+                <th>Nombre completo</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Rol</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+{
+            <tr>
+                <td>@item.NombreUsuario</td>
+                <td>@item.NombreCompleto</td>
+                <td>@item.Correo</td>
+                <td>@item.Telefono</td>
+                <td>@item.Rol</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalles</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+}
+        </tbody>
+    </table>
