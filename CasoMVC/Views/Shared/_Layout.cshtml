@@ -47,12 +47,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Iniciar sesión</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Registrarse</a>
+                        </li>
                         }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
+<<<<<<< Updated upstream
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -103,6 +107,8 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+=======
+>>>>>>> Stashed changes
 
                     <ul class="navbar-nav">
                         @if (HttpContextAccessor.HttpContext.Session.GetString("NombreUsuario") != null)
@@ -146,3 +152,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
