@@ -33,8 +33,6 @@ namespace CasoModels
         public int CupoMaximo { get; set; }
 
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
-
-        // FK Usuario que registró el evento
         public int UsuarioRegistroId { get; set; }
         public Usuario UsuarioRegistro { get; set; }
     }
