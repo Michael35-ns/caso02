@@ -1,0 +1,38 @@
+﻿@model IEnumerable<CasoModels.Evento>
+@{
+    ViewData["Title"] = "Listado de Eventos";
+}
+
+<h2>Listado de Eventos</h2>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Crear Nuevo Evento</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Título</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Cupo Máximo</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evento in Model)
+        {
+            <tr>
+                <td>@evento.Titulo</td>
+                <td>@evento.Fecha.ToString("dd/MM/yyyy")</td>
+                <td>@evento.Hora</td>
+                <td>@evento.CupoMaximo</td>
+                <td>@evento.Categoria?.Nombre</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@evento.Id" class="btn btn-info btn-sm">Detalles</a>
+                    <a asp-action="Edit" asp-route-id="@evento.Id" class="btn btn-warning btn-sm">Editar</a>
+                    <a asp-action="Delete" asp-route-id="@evento.Id" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
