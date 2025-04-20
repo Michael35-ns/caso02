@@ -16,5 +16,6 @@ namespace CasoModels
         public Evento Evento { get; set; }
 
         public DateTime FechaInscripcion { get; set; } = DateTime.Now;
+        public bool Asistio { get; set; } = false;
     }
 }

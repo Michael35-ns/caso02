@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CasoModels.InscripcionEvento>
+
+@{
+    ViewData["Title"] = "Usuarios Inscritos";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="mb-0">Usuarios Inscritos</h2>
+    <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">No hay usuarios inscritos en este evento.</div>
+}
+else
+{
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Nombre de Usuario</th>
+                <th>Nombre Completo</th>
+                <th>Correo</th>
+                <th>Teléfono</th>
+                <th>Fecha de Inscripción</th>
+                <th>Asistio</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var inscripcion in Model)
+            {
+                <tr>
+                    <td>@inscripcion.Usuario.NombreUsuario</td>
+                    <td>@inscripcion.Usuario.NombreCompleto</td>
+                    <td>@inscripcion.Usuario.Correo</td>
+                    <td>@inscripcion.Usuario.Telefono</td>
+                    <td>@inscripcion.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>
+                        @if (inscripcion.Asistio)
+                        {
+                            <span class="badge bg-success">Sí</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">No</span>
+                        }
+                    </td>
+                    <td>
+                        <form asp-action="MarcarPresente" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@inscripcion.Id" />
+                            <button type="submit" class="btn btn-success">Marcar presente</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form asp-action="MarcarAusente" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@inscripcion.Id" />
+                            <button type="submit" class="btn btn-success">Marcar ausente</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

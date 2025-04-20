@@ -79,9 +79,9 @@ namespace CasoModels
 
             // Inscripciones
             modelBuilder.Entity<InscripcionEvento>().HasData(
-                new InscripcionEvento { Id = 1, UsuarioId = 3, EventoId = 1, FechaInscripcion = DateTime.Now },
-                new InscripcionEvento { Id = 2, UsuarioId = 3, EventoId = 2, FechaInscripcion = DateTime.Now },
-                new InscripcionEvento { Id = 3, UsuarioId = 2, EventoId = 3, FechaInscripcion = DateTime.Now }
+                new InscripcionEvento { Id = 1, UsuarioId = 3, EventoId = 1, FechaInscripcion = DateTime.Now, Asistio = true },
+                new InscripcionEvento { Id = 2, UsuarioId = 3, EventoId = 2, FechaInscripcion = DateTime.Now, Asistio = false },
+                new InscripcionEvento { Id = 3, UsuarioId = 2, EventoId = 3, FechaInscripcion = DateTime.Now, Asistio = true }
             );
         }
 

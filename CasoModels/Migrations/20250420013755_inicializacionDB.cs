@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CasoModels.Migrations
 {
     /// <inheritdoc />
-    public partial class first_migration : Migration
+    public partial class inicializacionDB : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,7 +96,8 @@ namespace CasoModels.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UsuarioId = table.Column<int>(type: "int", nullable: false),
                     EventoId = table.Column<int>(type: "int", nullable: false),
-                    FechaInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    FechaInscripcion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Asistio = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -130,9 +131,9 @@ namespace CasoModels.Migrations
                 columns: new[] { "Id", "Descripcion", "Estado", "FechaRegistro", "Nombre", "UsuarioRegistroId" },
                 values: new object[,]
                 {
-                    { 1, "Eventos de innovación y tecnología", true, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2082), "Tecnología", 1 },
-                    { 2, "Eventos culturales y artísticos", true, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2084), "Arte", 2 },
-                    { 3, "Eventos deportivos", true, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2086), "Deportes", 1 }
+                    { 1, "Eventos de innovación y tecnología", true, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2455), "Tecnología", 1 },
+                    { 2, "Eventos culturales y artísticos", true, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2458), "Arte", 2 },
+                    { 3, "Eventos deportivos", true, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2460), "Deportes", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -140,19 +141,19 @@ namespace CasoModels.Migrations
                 columns: new[] { "Id", "CategoriaId", "CupoMaximo", "Descripcion", "Duracion", "Fecha", "FechaRegistro", "Hora", "Titulo", "Ubicacion", "UsuarioRegistroId" },
                 values: new object[,]
                 {
-                    { 1, 1, 100, "Feria de tecnología e innovación.", "4h", new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2103), "09:00", "Expo Tecnología 2025", "Centro de Convenciones", 2 },
-                    { 2, 2, 50, "Muestra de artistas nacionales.", "3h", new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2106), "14:00", "Galería de Arte Local", "Museo de Arte", 2 },
-                    { 3, 3, 200, "Evento deportivo abierto al público.", "2h", new DateTime(2025, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2108), "07:00", "Carrera 10K", "Parque Central", 1 }
+                    { 1, 1, 100, "Feria de tecnología e innovación.", "4h", new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2486), "09:00", "Expo Tecnología 2025", "Centro de Convenciones", 2 },
+                    { 2, 2, 50, "Muestra de artistas nacionales.", "3h", new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2491), "14:00", "Galería de Arte Local", "Museo de Arte", 2 },
+                    { 3, 3, 200, "Evento deportivo abierto al público.", "2h", new DateTime(2025, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified), new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2494), "07:00", "Carrera 10K", "Parque Central", 1 }
                 });
 
             migrationBuilder.InsertData(
                 table: "InscripcionesEventos",
-                columns: new[] { "Id", "EventoId", "FechaInscripcion", "UsuarioId" },
+                columns: new[] { "Id", "Asistio", "EventoId", "FechaInscripcion", "UsuarioId" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2122), 3 },
-                    { 2, 2, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2124), 3 },
-                    { 3, 3, new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2125), 2 }
+                    { 1, true, 1, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2514), 3 },
+                    { 2, false, 2, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2517), 3 },
+                    { 3, true, 3, new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2519), 2 }
                 });
 
             migrationBuilder.CreateIndex(

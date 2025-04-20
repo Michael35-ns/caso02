@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CasoModels.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250416022156_first_migration")]
-    partial class first_migration
+    [Migration("20250420013755_inicializacionDB")]
+    partial class inicializacionDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,7 +62,7 @@ namespace CasoModels.Migrations
                             Id = 1,
                             Descripcion = "Eventos de innovación y tecnología",
                             Estado = true,
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2082),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2455),
                             Nombre = "Tecnología",
                             UsuarioRegistroId = 1
                         },
@@ -71,7 +71,7 @@ namespace CasoModels.Migrations
                             Id = 2,
                             Descripcion = "Eventos culturales y artísticos",
                             Estado = true,
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2084),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2458),
                             Nombre = "Arte",
                             UsuarioRegistroId = 2
                         },
@@ -80,7 +80,7 @@ namespace CasoModels.Migrations
                             Id = 3,
                             Descripcion = "Eventos deportivos",
                             Estado = true,
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2086),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2460),
                             Nombre = "Deportes",
                             UsuarioRegistroId = 1
                         });
@@ -146,7 +146,7 @@ namespace CasoModels.Migrations
                             Descripcion = "Feria de tecnología e innovación.",
                             Duracion = "4h",
                             Fecha = new DateTime(2025, 5, 20, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2103),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2486),
                             Hora = "09:00",
                             Titulo = "Expo Tecnología 2025",
                             Ubicacion = "Centro de Convenciones",
@@ -160,7 +160,7 @@ namespace CasoModels.Migrations
                             Descripcion = "Muestra de artistas nacionales.",
                             Duracion = "3h",
                             Fecha = new DateTime(2025, 6, 10, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2106),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2491),
                             Hora = "14:00",
                             Titulo = "Galería de Arte Local",
                             Ubicacion = "Museo de Arte",
@@ -174,7 +174,7 @@ namespace CasoModels.Migrations
                             Descripcion = "Evento deportivo abierto al público.",
                             Duracion = "2h",
                             Fecha = new DateTime(2025, 7, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaRegistro = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2108),
+                            FechaRegistro = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2494),
                             Hora = "07:00",
                             Titulo = "Carrera 10K",
                             Ubicacion = "Parque Central",
@@ -189,6 +189,9 @@ namespace CasoModels.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Asistio")
+                        .HasColumnType("bit");
 
                     b.Property<int>("EventoId")
                         .HasColumnType("int");
@@ -212,22 +215,25 @@ namespace CasoModels.Migrations
                         new
                         {
                             Id = 1,
+                            Asistio = true,
                             EventoId = 1,
-                            FechaInscripcion = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2122),
+                            FechaInscripcion = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2514),
                             UsuarioId = 3
                         },
                         new
                         {
                             Id = 2,
+                            Asistio = false,
                             EventoId = 2,
-                            FechaInscripcion = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2124),
+                            FechaInscripcion = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2517),
                             UsuarioId = 3
                         },
                         new
                         {
                             Id = 3,
+                            Asistio = true,
                             EventoId = 3,
-                            FechaInscripcion = new DateTime(2025, 4, 15, 20, 21, 56, 96, DateTimeKind.Local).AddTicks(2125),
+                            FechaInscripcion = new DateTime(2025, 4, 19, 19, 37, 54, 643, DateTimeKind.Local).AddTicks(2519),
                             UsuarioId = 2
                         });
                 });

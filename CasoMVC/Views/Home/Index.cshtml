@@ -1,4 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<CasoModels.Evento>
+@{
+    ViewData["Title"] = "Inicio";
 }
+<h2 class="mb-4">Todos los Eventos</h2>
 
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @foreach (var evento in Model)
+    {
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@evento.Titulo</h5>
+                    <p class="card-text mb-1"><strong>Fecha:</strong> @evento.Fecha.ToString("dd/MM/yyyy")</p>
+                    <p class="card-text mb-1"><strong>Hora:</strong> @evento.Hora</p>
+                    <p class="card-text mb-1"><strong>Cupo Máximo:</strong> @evento.CupoMaximo</p>
+                    <p class="card-text"><strong>Categoría:</strong> @evento.Categoria?.Nombre</p>
+                </div>
+                <div class="card-footer bg-transparent border-top-0">
+                    <a asp-action="Inscribirme" asp-route-id="@evento.Id" class="btn btn-primary btn-sm w-100">Inscribirme</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
