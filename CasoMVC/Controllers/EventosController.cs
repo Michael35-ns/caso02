@@ -1,6 +1,7 @@
 ﻿using CasoModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace CasoMVC.Controllers
@@ -14,142 +15,123 @@ namespace CasoMVC.Controllers
             _context = context;
         }
 
-        private bool UsuarioEsAdministrador()
-        {
-            return HttpContext.Session.GetString("Rol") == "Admin";
-        }
-
-        // GET: Eventos
         public async Task<IActionResult> Index()
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
-            var eventos = await _context.Eventos
-                .Include(e => e.Categoria)
-                .Include(e => e.UsuarioRegistro)
-                .ToListAsync();
-
-            return View(eventos);
+            var eventos = _context.Eventos.Include(e => e.UsuarioRegistro);
+            return View(await eventos.ToListAsync());
         }
 
-        // GET: Eventos/Create
+
         public IActionResult Create()
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre");
             return View();
         }
-
-        // POST: Eventos/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Evento evento)
+        public async Task<IActionResult> Create([Bind("Titulo,Descripcion,CategoriaId,Fecha,Hora,Duracion,Ubicacion,CupoMaximo")] Evento evento)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
+            evento.FechaRegistro = DateTime.Now;
+
+            if (int.TryParse(HttpContext.Session.GetString("UsuarioId"), out int idUsuario))
+            {
+                evento.UsuarioRegistroId = idUsuario;
+            }
+            else
+            {
+                ModelState.AddModelError("", "No se pudo obtener el ID del usuario desde la sesión.");
+            }
 
             if (evento.Fecha < DateTime.Today)
                 ModelState.AddModelError("Fecha", "La fecha no puede estar en el pasado.");
 
-            if (!TimeSpan.TryParse(evento.Duracion, out TimeSpan duracion) || duracion.TotalMinutes <= 0)
-                ModelState.AddModelError("Duracion", "La duración debe ser válida y positiva.");
+            if (!int.TryParse(evento.Duracion, out int duracion) || duracion <= 0)
+                ModelState.AddModelError("Duracion", "La duración debe ser un número positivo.");
 
             if (evento.CupoMaximo <= 0)
                 ModelState.AddModelError("CupoMaximo", "El cupo máximo debe ser mayor a 0.");
+            ModelState.Remove("UsuarioRegistro");
+            ModelState.Remove("Categoria");
 
             if (ModelState.IsValid)
             {
-                evento.FechaRegistro = DateTime.Now;
-
-                if (int.TryParse(HttpContext.Session.GetString("UsuarioId"), out int usuarioId))
-                {
-                    evento.UsuarioRegistroId = usuarioId;
-                }
-                else
-                {
-                    ModelState.AddModelError("", "No se pudo obtener el usuario desde la sesión.");
-                    ViewData["Categorias"] = _context.Categorias.ToList();
-                    return View(evento);
-                }
-
                 _context.Add(evento);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre", evento.CategoriaId);
             return View(evento);
         }
 
-        // GET: Eventos/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
             if (id == null)
+            {
                 return NotFound();
+            }
 
             var evento = await _context.Eventos.FindAsync(id);
             if (evento == null)
+            {
                 return NotFound();
+            }
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre", evento.CategoriaId);
 
-            ViewData["Categorias"] = _context.Categorias.ToList();
             return View(evento);
         }
 
-        // POST: Eventos/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, Evento evento)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Titulo,Descripcion,CategoriaId,Fecha,Hora,Duracion,Ubicacion,CupoMaximo")] Evento evento)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
             if (id != evento.Id)
+            {
                 return NotFound();
+            }
+
+            evento.FechaRegistro = DateTime.Now;
+
+            if (int.TryParse(HttpContext.Session.GetString("UsuarioId"), out int idUsuario))
+            {
+                evento.UsuarioRegistroId = idUsuario;
+            }
+            else
+            {
+                ModelState.AddModelError("", "No se pudo obtener el ID del usuario desde la sesión.");
+            }
 
             if (evento.Fecha < DateTime.Today)
                 ModelState.AddModelError("Fecha", "La fecha no puede estar en el pasado.");
 
-            if (!TimeSpan.TryParse(evento.Duracion, out TimeSpan duracion) || duracion.TotalMinutes <= 0)
-                ModelState.AddModelError("Duracion", "La duración debe ser válida y positiva.");
+            if (!int.TryParse(evento.Duracion, out int duracion) || duracion <= 0)
+                ModelState.AddModelError("Duracion", "La duración debe ser un número positivo.");
 
             if (evento.CupoMaximo <= 0)
                 ModelState.AddModelError("CupoMaximo", "El cupo máximo debe ser mayor a 0.");
 
+            ModelState.Remove("UsuarioRegistro");
+            ModelState.Remove("Categoria");
+
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(evento);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!_context.Eventos.Any(e => e.Id == id))
-                        return NotFound();
-                    else
-                        throw;
-                }
+                _context.Update(evento);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
-            ViewData["Categorias"] = _context.Categorias.ToList();
+            ViewData["CategoriaId"] = new SelectList(_context.Categorias, "Id", "Nombre", evento.CategoriaId);
             return View(evento);
         }
 
-        // GET: Eventos/Details/5
+        [HttpGet]
         public async Task<IActionResult> Details(int? id)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
             if (id == null)
+            {
                 return NotFound();
+            }
 
             var evento = await _context.Eventos
                 .Include(e => e.Categoria)
@@ -157,19 +139,20 @@ namespace CasoMVC.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (evento == null)
+            {
                 return NotFound();
+            }
 
             return View(evento);
         }
 
-        // GET: Eventos/Delete/5
+        [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
             if (id == null)
+            {
                 return NotFound();
+            }
 
             var evento = await _context.Eventos
                 .Include(e => e.Categoria)
@@ -177,19 +160,18 @@ namespace CasoMVC.Controllers
                 .FirstOrDefaultAsync(m => m.Id == id);
 
             if (evento == null)
+            {
                 return NotFound();
+            }
 
             return View(evento);
         }
 
-        // POST: Eventos/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
             var evento = await _context.Eventos.FindAsync(id);
             if (evento != null)
             {
@@ -199,5 +181,7 @@ namespace CasoMVC.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }

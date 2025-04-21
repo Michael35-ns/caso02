@@ -1,16 +1,26 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CasoMVC</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CasoMVC.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Onix Digital Marketing HTML5 Template</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="~/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="~/assets/css/templatemo-onix-digital.css">
+    <link rel="stylesheet" href="~/assets/css/animated.css">
+    <link rel="stylesheet" href="~/assets/css/owl.css">
 </head>
+
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
@@ -35,17 +45,9 @@
                             <a asp-action="Index" asp-controller="Inscripciones" class="nav-link text-dark">Inscripciones</a>
                         </li>
                     </ul>
-
-                    <ul class="navbar-nav">
-                        @if (HttpContextAccessor.HttpContext.Session.GetString("NombreUsuario") != null)
-                        {
-                        <li class="nav-item">
-                            <span class="nav-link text-primary">
-                                Bienvenido, @HttpContextAccessor.HttpContext.Session.GetString("NombreUsuario") (@HttpContextAccessor.HttpContext.Session.GetString("Rol"))
-                            </span>
-                        </li>
-
-                        <li class="nav-item">
+<body class="index-page d-flex flex-column min-vh-100">
+    @Html.Partial("_Header")
+         <li class="nav-item">
                             <a class="nav-link text-danger" asp-controller="Auth" asp-action="Logout">Cerrar sesión</a>
                         </li>
                         }
@@ -79,7 +81,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    <!-- Contenido principal que crece y empuja el footer abajo -->
+    <main class="main flex-grow-1">
+        @RenderBody()
+    </main>
+
+    @Html.Partial("_Footer")
+
+    !-- Scripts -->
+    <script src="~/vendor/jquery/jquery.min.js"></script>
+    <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/animation.js"></script>
+    <script src="~/assets/js/imagesloaded.js"></script>
+    <script src="~/assets/js/custom.js"></script>
+
+
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-

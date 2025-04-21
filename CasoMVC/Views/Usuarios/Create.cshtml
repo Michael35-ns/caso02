@@ -1,67 +1,82 @@
-﻿@model CasoModels.Usuario
+﻿@model CasoMVC.Models.UsuarioViewModel
 
 @{
     ViewData["Title"] = "Crear Usuario";
 }
 
-<h1>Crear Usuario</h1>
+<section class="section pt-5 mt-5 mb-5" style="padding-top: 120px; margin-top: 80px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 rounded-4 bg-white p-5" style="font-family: 'Inter', sans-serif;">
 
-<hr />
-<div class="row">
-    <div class="col-md-6">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold mb-1" style="color: #388da8;">Crear Nuevo Usuario</h2>
+                    <p class="text-muted mb-0">Agrega un nuevo usuario con los permisos adecuados</p>
+                </div>
 
-            <div class="form-group">
-                <label asp-for="NombreUsuario" class="control-label"></label>
-                <input asp-for="NombreUsuario" class="form-control" />
-                <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                <form asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="NombreUsuario" class="form-label"></label>
+                        <input asp-for="NombreUsuario" class="form-control" />
+                        <span asp-validation-for="NombreUsuario" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="NombreCompleto" class="form-label"></label>
+                        <input asp-for="NombreCompleto" class="form-control" />
+                        <span asp-validation-for="NombreCompleto" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Correo" class="form-label"></label>
+                        <input asp-for="Correo" class="form-control" />
+                        <span asp-validation-for="Correo" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Telefono" class="form-label"></label>
+                        <input asp-for="Telefono" class="form-control" />
+                        <span asp-validation-for="Telefono" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Contrasena" class="form-label"></label>
+                        <input asp-for="Contrasena" class="form-control" type="password" />
+                        <span asp-validation-for="Contrasena" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Rol" class="form-label"></label>
+                        <select asp-for="Rol" class="form-select">
+                            <option value="">Seleccione un rol</option>
+                            <option>Admin</option>
+                            <option>Organizador</option>
+                            <option>Usuario</option>
+                        </select>
+                        <span asp-validation-for="Rol" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn text-white btn-lg" style="background-color: #388da8; border-radius: 50px;">
+                            <i class="bi bi-save me-1"></i> Guardar Usuario
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-secondary btn-lg" style="border-radius: 50px;">
+                            <i class="bi bi-arrow-left me-1"></i> Volver al listado
+                        </a>
+                    </div>
+                </form>
+
             </div>
-
-            <div class="form-group">
-                <label asp-for="NombreCompleto" class="control-label"></label>
-                <input asp-for="NombreCompleto" class="form-control" />
-                <span asp-validation-for="NombreCompleto" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Correo" class="control-label"></label>
-                <input asp-for="Correo" class="form-control" />
-                <span asp-validation-for="Correo" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Telefono" class="control-label"></label>
-                <input asp-for="Telefono" class="form-control" />
-                <span asp-validation-for="Telefono" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Contrasena" class="control-label"></label>
-                <input asp-for="Contrasena" class="form-control" type="password" />
-                <span asp-validation-for="Contrasena" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="Rol" class="control-label"></label>
-                <select asp-for="Rol" class="form-control">
-                    <option value="">Seleccione un rol</option>
-                    <option>Administrador</option>
-                    <option>Organizador</option>
-                    <option>Usuario</option>
-                </select>
-                <span asp-validation-for="Rol" class="text-danger"></span>
-            </div>
-
-            <br />
-            <div class="form-group">
-                <input type="submit" value="Guardar" class="btn btn-success" />
-                <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+</section>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

@@ -1,0 +1,82 @@
+﻿@model CasoMVC.Models.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Registrarse";
+}
+
+<section class="contact-us section" style="padding-top: 180px; margin-top: 60px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 p-0 rounded-4 overflow-hidden">
+                <div class="row g-0 align-items-stretch" style="min-height: 620px;">
+
+                    <div class="col-lg-6 d-none d-lg-block p-0">
+                        <img src="~/assets/img/evento.jpg" alt="Registro"
+                             class="w-100 h-100" style="object-fit: cover;" />
+                    </div>
+
+                    <div class="col-lg-6 bg-white d-flex align-items-center">
+                        <form asp-action="Register" method="post" id="contact" class="w-100 px-5">
+
+                            <div class="text-center mb-4">
+                                <h2 class="fw-bold" style="color: #388da8;">Crear cuenta</h2>
+                                <p class="text-muted">Regístrate para empezar a gestionar tus eventos con <strong>EventCorp</strong></p>
+                            </div>
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                            <fieldset class="mb-3">
+                                <input asp-for="NombreUsuario" class="form-control" placeholder="Usuario" autocomplete="on" required />
+                                <span asp-validation-for="NombreUsuario" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-3">
+                                <input asp-for="NombreCompleto" class="form-control" placeholder="Nombre completo" required />
+                                <span asp-validation-for="NombreCompleto" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-3">
+                                <input asp-for="Correo" class="form-control" placeholder="Correo electrónico" required />
+                                <span asp-validation-for="Correo" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-3">
+                                <input asp-for="Telefono" class="form-control" placeholder="Teléfono" required />
+                                <span asp-validation-for="Telefono" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-3">
+                                <input asp-for="Contrasena" class="form-control" type="password" placeholder="Contraseña" required />
+                                <span asp-validation-for="Contrasena" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-4">
+                                <input asp-for="ConfirmarContrasena" class="form-control" type="password" placeholder="Confirmar contraseña" required />
+                                <span asp-validation-for="ConfirmarContrasena" class="text-danger small"></span>
+                            </fieldset>
+
+                            <fieldset class="mb-4">
+                                <button type="submit" class="main-button w-100">Registrarse</button>
+                            </fieldset>
+
+                            <div class="text-center mt-3">
+                                <p class="mb-1">¿Ya tienes una cuenta?</p>
+                                <a asp-action="Login" class="btn btn-outline-primary rounded-pill px-4">
+                                    Inicia sesión aquí
+                                </a>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

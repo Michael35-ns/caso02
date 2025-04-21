@@ -1,51 +1,67 @@
 ﻿@model CasoModels.Categoria
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar Categoría";
 }
 
-<h1>Delete</h1>
+<section class="section pt-5 mt-5 mb-5" style="padding-top: 180px; margin-top: 100px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 rounded-4 bg-white p-5" style="font-family: 'Inter', sans-serif;">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold text-danger mb-1">
+                        <i class="bi bi-exclamation-triangle-fill me-1"></i> Confirmar Eliminación
+                    </h2>
+                    <p class="text-muted">¿Estás seguro de que deseas eliminar esta categoría? Esta acción no se puede deshacer.</p>
+                </div>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Categoria</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Descripcion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Descripcion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UsuarioRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UsuarioRegistro.Contrasena)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
-</div>
+                <div class="mb-3">
+                    <label class="text-secondary">Nombre</label>
+                    <div>@Model.Nombre</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-secondary">Descripción</label>
+                    <div>@Model.Descripcion</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-secondary">Estado</label>
+                    <div>
+                        @if (Model.Estado)
+                        {
+                            <span class="badge" style="background-color: #388da8;">Activo</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">Inactivo</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-secondary">Fecha de Registro</label>
+                    <div>@Model.FechaRegistro.ToString("dd/MM/yyyy")</div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-secondary">Registrado por</label>
+                    <div>@Model.UsuarioRegistro?.NombreUsuario</div>
+                </div>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <button type="submit" class="btn btn-danger btn-lg" style="border-radius: 50px;">
+                            <i class="bi bi-trash me-1"></i> Eliminar
+                        </button>
+                        <a asp-action="Index" class="btn btn-outline-dark btn-lg" style="border-radius: 50px;">
+                            <i class="bi bi-arrow-left me-1"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
