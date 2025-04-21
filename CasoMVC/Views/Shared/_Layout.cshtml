@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="~/assets/css/templatemo-onix-digital.css">
     <link rel="stylesheet" href="~/assets/css/animated.css">
     <link rel="stylesheet" href="~/assets/css/owl.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 </head>
 
 <body class="index-page d-flex flex-column min-vh-100">
@@ -34,10 +35,40 @@
     <script src="~/vendor/jquery/jquery.min.js"></script>
     <script src="~/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/assets/js/owl-carousel.js"></script>
+    <script src="~/assets/js/config.js"></script>
     <script src="~/assets/js/animation.js"></script>
     <script src="~/assets/js/imagesloaded.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/assets/js/custom.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            @if (TempData["Success"] != null)
+            {
+                <text>
+                            Swal.fire({
+                                icon: 'success',
+                            title: '¡Éxito!',
+                            text: '@TempData["SuccessMessage"]',
+                            confirmButtonColor: '#28a745'
+                                });
+                </text>
+            TempData["Success"] = null;
+            }
 
+        @if (TempData["Error"] != null)
+            {
+                <text>
+                            Swal.fire({
+                                icon: 'error',
+                            title: 'Error',
+                            text: '@TempData["ErrorMessage"]',
+                            confirmButtonColor: '#dc3545'
+                                });
+                </text>
+            TempData["Error"] = null;
+            }
+         });
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

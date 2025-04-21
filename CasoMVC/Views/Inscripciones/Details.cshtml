@@ -4,61 +4,80 @@
     ViewData["Title"] = "Usuarios Inscritos";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h2 class="mb-0">Usuarios Inscritos</h2>
-    <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
-</div>
+<section class="section mb-5" style="padding-top: 50px; margin-top: 160px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
 
-@if (!Model.Any())
-{
-    <div class="alert alert-info">No hay usuarios inscritos en este evento.</div>
-}
-else
-{
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Nombre de Usuario</th>
-                <th>Nombre Completo</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Fecha de Inscripción</th>
-                <th>Asistio</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var inscripcion in Model)
-            {
-                <tr>
-                    <td>@inscripcion.Usuario.NombreUsuario</td>
-                    <td>@inscripcion.Usuario.NombreCompleto</td>
-                    <td>@inscripcion.Usuario.Correo</td>
-                    <td>@inscripcion.Usuario.Telefono</td>
-                    <td>@inscripcion.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
-                    <td>
-                        @if (inscripcion.Asistio)
-                        {
-                            <span class="badge bg-success">Sí</span>
-                        }
-                        else
-                        {
-                            <span class="badge bg-secondary">No</span>
-                        }
-                    </td>
-                    <td>
-                        <form asp-action="MarcarPresente" method="post" class="d-inline">
-                            <input type="hidden" name="id" value="@inscripcion.Id" />
-                            <button type="submit" class="btn btn-success">Marcar presente</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form asp-action="MarcarAusente" method="post" class="d-inline">
-                            <input type="hidden" name="id" value="@inscripcion.Id" />
-                            <button type="submit" class="btn btn-success">Marcar ausente</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-}
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0" style="color: #388da8;">Usuarios Inscritos</h2>
+                    <a asp-action="Index" class="btn btn-secondary">Volver al listado</a>
+                </div>
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-info text-center" role="alert">
+                        No hay usuarios inscritos en este evento.
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive overflow-hidden">
+                        <table class="table table-bordered table-hover align-middle" style="font-family: 'Inter', sans-serif; font-size: 16px;">
+                            <thead style="background-color: #eaf6fb;">
+                                <tr class="text-center text-uppercase" style="color: #388da8;">
+                                    <th>Nombre de Usuario</th>
+                                    <th>Nombre Completo</th>
+                                    <th>Correo</th>
+                                    <th>Teléfono</th>
+                                    <th>Fecha de Inscripción</th>
+                                    <th>Asistió</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var inscripcion in Model)
+                                {
+                                    <tr class="text-center">
+                                        <td>@inscripcion.Usuario.NombreUsuario</td>
+                                        <td>@inscripcion.Usuario.NombreCompleto</td>
+                                        <td>@inscripcion.Usuario.Correo</td>
+                                        <td>@inscripcion.Usuario.Telefono</td>
+                                        <td>@inscripcion.FechaInscripcion.ToString("dd/MM/yyyy HH:mm")</td>
+                                        <td>
+                                            @if (inscripcion.Asistio)
+                                            {
+                                                <span class="badge bg-success">Sí</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">No</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <form asp-action="MarcarPresente" method="post" class="d-inline">
+                                                    <input type="hidden" name="id" value="@inscripcion.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-success rounded-pill px-3">
+                                                        <i class="bi bi-check-circle me-1"></i> Presente
+                                                    </button>
+                                                </form>
+                                                <form asp-action="MarcarAusente" method="post" class="d-inline">
+                                                    <input type="hidden" name="id" value="@inscripcion.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                        <i class="bi bi-x-circle me-1"></i> Ausente
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</section>

@@ -30,11 +30,19 @@
                     <dd class="col-sm-8">@Model.Categoria</dd>
                 </dl>
 
-                <div class="text-end mt-4">
+                <div class="d-flex justify-content-end align-items-center gap-2 mt-4 flex-wrap">
+
+                    <button class="btn btn-outline-success rounded-pill px-4 d-flex align-items-center"
+                            title="Inscribirme"
+                            onclick="confirmInscripcion('@Model.Titulo', '@Model.Id', '/Inscripciones/Inscribirme/{id}')">
+                        <i class="bi bi-check-circle me-2"></i> Inscribirme
+                    </button>
+
                     <a asp-action="Eventos" class="btn btn-outline-primary rounded-pill px-4">
                         <i class="bi bi-arrow-left me-1"></i> Volver a Eventos
                     </a>
                 </div>
+
 
             </div>
         </div>

@@ -3,7 +3,6 @@
 @{
     ViewData["Title"] = "Inscripciones";
 }
-
 <section class="section mb-5" style="padding-top: 50px; margin-top: 160px;">
     <div class="container">
         <div class="row justify-content-center">
@@ -13,41 +12,51 @@
                     <h2 class="fw-bold mb-0" style="color: #388da8;">Listado de Eventos con Inscripciones</h2>
                 </div>
 
-                <div class="table-responsive overflow-hidden">
-                    <table class="table table-bordered table-hover align-middle" style="font-family: 'Inter', sans-serif; font-size: 16px;">
-                        <thead style="background-color: #eaf6fb;">
-                            <tr class="text-center text-uppercase" style="color: #388da8;">
-                                <th>Título</th>
-                                <th>Fecha</th>
-                                <th>Hora</th>
-                                <th>Cupo Máximo</th>
-                                <th>Categoría</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var evento in Model)
-                            {
-                                <tr class="text-center">
-                                    <td>@evento.Titulo</td>
-                                    <td>@evento.Fecha.ToString("dd/MM/yyyy")</td>
-                                    <td>@evento.Hora</td>
-                                    <td>@evento.CupoMaximo</td>
-                                    <td>@evento.Categoria?.Nombre</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-2">
-                                            <a asp-action="Details" asp-route-id="@evento.Id" class="btn btn-sm btn-outline-info rounded-pill px-3">
-                                                <i class="bi bi-people me-1"></i> Inscritos
-                                            </a>
-                                        </div>
-                                    </td>
+                @if (Model.Any())
+                {
+                    <div class="table-responsive overflow-hidden">
+                        <table class="table table-bordered table-hover align-middle" style="font-family: 'Inter', sans-serif; font-size: 16px;">
+                            <thead style="background-color: #eaf6fb;">
+                                <tr class="text-center text-uppercase" style="color: #388da8;">
+                                    <th>Título</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Cupo Máximo</th>
+                                    <th>Categoría</th>
+                                    <th>Acciones</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                            </thead>
+                            <tbody>
+                                @foreach (var evento in Model)
+                                {
+                                    <tr class="text-center">
+                                        <td>@evento.Titulo</td>
+                                        <td>@evento.Fecha.ToString("dd/MM/yyyy")</td>
+                                        <td>@evento.Hora</td>
+                                        <td>@evento.CupoMaximo</td>
+                                        <td>@evento.Categoria?.Nombre</td>
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <a asp-action="Details" asp-route-id="@evento.Id" class="btn btn-sm btn-outline-info rounded-pill px-3">
+                                                    <i class="bi bi-people me-1"></i> Inscritos
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info text-center" role="alert">
+                        No hay eventos con inscripciones por el momento.
+                    </div>
+                }
 
             </div>
         </div>
     </div>
 </section>
+

@@ -1,4 +1,5 @@
-﻿using CasoModels;
+﻿using Azure;
+using CasoModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -53,7 +54,6 @@ namespace CasoMVC.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Inscribirme(int id)
         {
             var usuarioId = ObtenerUsuarioIdActual();
@@ -64,7 +64,7 @@ namespace CasoMVC.Controllers
 
             if (evento == null)
             {
-                return NotFound();
+                return Json(new { success = false, message = "Evento no encontrado." });
             }
 
             var inscripcionesActuales = await _context.InscripcionesEventos
@@ -72,8 +72,7 @@ namespace CasoMVC.Controllers
 
             if (inscripcionesActuales >= evento.CupoMaximo)
             {
-                TempData["Error"] = "No hay cupo disponible para este evento.";
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false, message = "No hay cupo disponible para este evento." });
             }
 
             var eventosUsuario = await _context.InscripcionesEventos
@@ -88,8 +87,7 @@ namespace CasoMVC.Controllers
 
             if (mismoDia)
             {
-                TempData["Error"] = "Ya estás inscrito en otro evento en esa fecha y hora.";
-                return RedirectToAction("Index", "Home");
+                return Json(new { success = false, message = "Ya estás inscrito en otro evento en esa fecha y hora." });
             }
 
             var inscripcion = new InscripcionEvento
@@ -100,10 +98,16 @@ namespace CasoMVC.Controllers
             };
 
             _context.InscripcionesEventos.Add(inscripcion);
-            await _context.SaveChangesAsync();
+            var result = await _context.SaveChangesAsync();
 
-            TempData["Success"] = "Te has inscrito correctamente al evento.";
-            return RedirectToAction("Index", "Home");
+            if (result > 0)
+            {
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
         }
 
 
@@ -125,12 +129,12 @@ namespace CasoMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarcarPresente(int? id)
         {
-            var inscripcion = await _context.InscripcionesEventos.FirstOrDefaultAsync(i => i.EventoId == id );
+            var inscripcion = await _context.InscripcionesEventos.FindAsync(id);
 
             if (inscripcion == null)
             {
                 TempData["Error"] = "El id de la inscripcion no existe en los registros.";
-                return RedirectToAction("Details", new { id = inscripcion.EventoId });
+                return RedirectToAction("Details", new { id = id });
 
             }
 
@@ -146,7 +150,7 @@ namespace CasoMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> MarcarAusente(int? id)
         {
-            var inscripcion = await _context.InscripcionesEventos.FirstOrDefaultAsync(i => i.EventoId == id);
+            var inscripcion = await _context.InscripcionesEventos.FindAsync(id);
 
             if (inscripcion == null)
             {
