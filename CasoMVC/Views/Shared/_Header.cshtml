@@ -23,8 +23,8 @@
 
                         @if (rol == "Usuario" || rol == "Organizador" || rol == "Admin")
                         {
-                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                             <li><a asp-controller="Eventos" asp-action="Eventos">Eventos</a></li>
+                            <li><a asp-controller="Inscripciones" asp-action="Index">Incripciones</a></li>
                         }
 
                         @if (rol == "Organizador")

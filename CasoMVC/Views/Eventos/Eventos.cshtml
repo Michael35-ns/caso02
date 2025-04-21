@@ -1,0 +1,33 @@
+﻿@model IEnumerable<CasoMVC.Models.EventoViewModel>
+
+@{
+    ViewData["Title"] = "Eventos Públicos";
+}
+
+<section class="section mb-5" style="padding-top: 50px; margin-top: 160px;">
+    <div class="container">
+        <h2 class="fw-bold mb-5 text-center" style="color: #388da8;">Eventos Públicos Disponibles</h2>
+
+        <div class="row g-4">
+            @foreach (var evento in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 rounded-4" style="font-family: 'Inter', sans-serif;">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-2 text-primary">@evento.Titulo</h5>
+                            <p class="text-muted mb-2"><i class="bi bi-calendar-event me-1"></i> @evento.Fecha.ToString("dd/MM/yyyy") - @evento.Hora</p>
+                            <p class="mb-2"><strong>Cupo:</strong> @evento.CupoMaximo</p>
+                            <p class="mb-3"><strong>Categoría:</strong> @evento.Categoria</p>
+
+                            <div class="mt-auto text-end">
+                                <a asp-action="EventoDetails" asp-route-id="@evento.Id" class="btn btn-outline-primary rounded-pill px-3">
+                                    <i class="bi bi-eye me-1"></i> Ver Detalle
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,4 +1,6 @@
 using CasoModels;
+using CasoMVC.Interface;
+using CasoMVC.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,7 +11,10 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("CasoEstudio")));
 
 builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor(); 
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddHttpClient<IEventoService, EventoService>();
+
 
 
 var app = builder.Build();

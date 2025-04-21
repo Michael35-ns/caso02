@@ -1,4 +1,5 @@
 ﻿using CasoModels;
+using CasoMVC.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,10 +10,13 @@ namespace CasoMVC.Controllers
     public class EventosController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IEventoService _eventoService;
 
-        public EventosController(ApplicationDbContext context)
+        public EventosController(ApplicationDbContext context, IEventoService eventoService)
         {
             _context = context;
+            _eventoService = eventoService;
+
         }
 
         public async Task<IActionResult> Index()
@@ -182,6 +186,25 @@ namespace CasoMVC.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Eventos()
+        {
+            var eventos = await _eventoService.ObtenerEventosAsync();
+            return View("Eventos", eventos); // Vista: Views/EventosPublicos/Eventos.cshtml
+        }
 
+        // GET: /EventosPublicos/EventoDetails/5
+        [HttpGet]
+        public async Task<IActionResult> EventoDetails(int id)
+        {
+            var evento = await _eventoService.ObtenerEventoPorIdAsync(id);
+
+            if (evento == null)
+                return NotFound();
+
+            return View("EventoDetails", evento); 
+        }
     }
+
+
 }

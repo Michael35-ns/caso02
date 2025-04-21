@@ -21,72 +21,14 @@
     <link rel="stylesheet" href="~/assets/css/owl.css">
 </head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CasoMVC</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Categoria" class="nav-link text-dark">Categorías</a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-action="Index" asp-controller="Inscripciones" class="nav-link text-dark">Inscripciones</a>
-                        </li>
-                    </ul>
 <body class="index-page d-flex flex-column min-vh-100">
     @Html.Partial("_Header")
-         <li class="nav-item">
-                            <a class="nav-link text-danger" asp-controller="Auth" asp-action="Logout">Cerrar sesión</a>
-                        </li>
-                        }
-                        else
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Login">Iniciar sesión</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Auth" asp-action="Register">Registrarse</a>
-                        </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - CasoMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
-        </div>
-    </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    <!-- Contenido principal que crece y empuja el footer abajo -->
+    
     <main class="main flex-grow-1">
         @RenderBody()
     </main>
-
     @Html.Partial("_Footer")
+
 
     !-- Scripts -->
     <script src="~/vendor/jquery/jquery.min.js"></script>
