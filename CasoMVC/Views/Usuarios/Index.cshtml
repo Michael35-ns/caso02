@@ -1,41 +1,66 @@
 ﻿@model IEnumerable<CasoModels.Usuario>
 
-    @{
-    ViewData["Title"] = "Lista de Usuarios";
-    }
-
-    <h1>Usuarios</h1>
-
-    <p>
-        <a asp-action="Create" class="btn btn-primary">Crear nuevo usuario</a>
-    </p>
-
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Nombre de usuario</th>
-                <th>Nombre completo</th>
-                <th>Correo</th>
-                <th>Teléfono</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-{
-            <tr>
-                <td>@item.NombreUsuario</td>
-                <td>@item.NombreCompleto</td>
-                <td>@item.Correo</td>
-                <td>@item.Telefono</td>
-                <td>@item.Rol</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Editar</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info">Detalles</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Eliminar</a>
-                </td>
-            </tr>
+@{
+    ViewData["Title"] = "Usuarios";
 }
-        </tbody>
-    </table>
+
+<section class="section mb-5" style="padding-top: 50px; margin-top: 160px;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2 class="fw-bold mb-0" style="color: #388da8;">Listado de Usuarios</h2>
+                    <a asp-action="Create" asp-controller="Usuarios"
+                       class="btn btn-lg text-white rounded-pill px-4 py-2"
+                       style="background-color: #388da8;">
+                        <i class="bi bi-plus-circle me-2"></i> Nuevo Usuario
+                    </a>
+                </div>
+
+                <div class="table-responsive overflow-hidden">
+                    <table class="table table-bordered table-hover align-middle" style="font-family: 'Inter', sans-serif; font-size: 16px;">
+                        <thead style="background-color: #eaf6fb;">
+                            <tr class="text-center text-uppercase" style="color: #388da8;">
+                                <th>Usuario</th>
+                                <th>Nombre Completo</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Rol</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr class="text-center">
+                                    <td>@item.NombreUsuario</td>
+                                    <td>@item.NombreCompleto</td>
+                                    <td>@item.Correo</td>
+                                    <td>@item.Telefono</td>
+                                    <td>
+                                        <span class="badge bg-secondary px-3 py-2">@item.Rol</span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center gap-2">
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary rounded-pill px-3">
+                                                <i class="bi bi-pencil me-1"></i> Editar
+                                            </a>
+                                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info rounded-pill px-3">
+                                                <i class="bi bi-eye me-1"></i> Ver
+                                            </a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger rounded-pill px-3">
+                                                <i class="bi bi-trash me-1"></i> Eliminar
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

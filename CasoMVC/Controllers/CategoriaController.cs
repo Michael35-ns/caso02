@@ -64,11 +64,11 @@ namespace CasoMVC.Controllers
             {
                 ModelState.AddModelError("", "No se pudo obtener el ID del usuario desde la sesión.");
             }
-            if (categoria!=null)
+            if (categoria != null)
             {
-                    _context.Add(categoria);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                _context.Add(categoria);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
             return View(categoria);
         }
@@ -93,7 +93,7 @@ namespace CasoMVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Descripcion,Estado")] Categoria categoria)
         {
-            
+
             if (id != categoria.Id)
             {
                 return NotFound();
@@ -108,8 +108,8 @@ namespace CasoMVC.Controllers
             {
                 ModelState.AddModelError("", "No se pudo obtener el ID del usuario desde la sesión.");
             }
-            if(categoria!= null)
-            { 
+            if (categoria != null)
+            {
                 try
                 {
                     _context.Update(categoria);
@@ -128,7 +128,7 @@ namespace CasoMVC.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-          
+
             return View(categoria);
         }
 

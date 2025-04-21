@@ -1,0 +1,60 @@
+﻿@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var rol = HttpContextAccessor.HttpContext.Session.GetString("Rol");
+    var nombreUsuario = HttpContextAccessor.HttpContext.Session.GetString("NombreUsuario");
+}
+
+<header class="header-area header-sticky wow slideInDown" data-wow-duration="0.75s" data-wow-delay="0s">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="main-nav">
+                    <a asp-controller="Home" asp-action="Index" class="logo">
+                        <img src="~/assets/images/logo.png" alt="Logo" />
+                    </a>
+                    <ul class="nav">
+                        @if (rol == "Admin")
+                        {
+                            <li><a asp-controller="Usuarios" asp-action="Index">Gestión de Usuarios</a></li>
+                            <li><a asp-controller="Eventos" asp-action="Index">Gestión de Eventos</a></li>
+                            <li><a asp-controller="Categoria" asp-action="Index">Gestión de Categorías</a></li>
+                            <li><a asp-controller="Dashboard" asp-action="Dashboars">Dashboard</a></li>
+                        }
+
+                        @if (rol == "Usuario" || rol == "Organizador" || rol == "Admin")
+                        {
+                            <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                            <li><a asp-controller="Eventos" asp-action="Eventos">Eventos</a></li>
+                        }
+
+                        @if (rol == "Organizador")
+                        {
+                            <li><a asp-controller="Dashboard" asp-action="Dashboars">Dashboard</a></li>
+                        }
+                        @if (string.IsNullOrEmpty(nombreUsuario))
+                        {
+                            <li>
+                                <a asp-controller="Auth" asp-action="Register">Registrarse</a>
+                            </li>
+                            <li>
+                                <a asp-controller="Auth" asp-action="Login" class="main-red-button-hover">Iniciar Sesión</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="Auth" asp-action="Logout" class="main-red-button-hover">Cerrar Sesión</a>
+                            </li>
+                        }
+
+
+
+                    <!-- Menú responsive -->
+                    <a class="menu-trigger">
+                        <span>Menu</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>

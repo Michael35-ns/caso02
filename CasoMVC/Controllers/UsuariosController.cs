@@ -4,6 +4,7 @@ using CasoModels;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
+using CasoMVC.Models;
 
 namespace CasoMVC.Controllers
 {
@@ -18,7 +19,7 @@ namespace CasoMVC.Controllers
 
         private bool UsuarioEsAdministrador()
         {
-            return HttpContext.Session.GetString("Rol") == "Administrador";
+            return HttpContext.Session.GetString("Rol") == "Admin";
         }
 
         public async Task<IActionResult> Index()
@@ -40,54 +41,113 @@ namespace CasoMVC.Controllers
             return View(usuarios);
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
+            Console.WriteLine("🟢 [GET] Accediendo a la vista Crear Usuario");
+
             if (!UsuarioEsAdministrador())
+            {
+                Console.WriteLine("🔒 Usuario no autorizado. Redirigiendo a Login.");
                 return RedirectToAction("Login", "Auth");
+            }
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("NombreUsuario,NombreCompleto,Correo,Telefono,Contrasena,Rol")] Usuario usuario)
+        public async Task<IActionResult> Create(UsuarioViewModel model)
         {
+            Console.WriteLine("📩 [POST] Recibiendo datos del formulario para crear usuario");
+
             if (!UsuarioEsAdministrador())
+            {
+                Console.WriteLine("🔒 Usuario no autorizado al intentar crear usuario. Redirigiendo.");
                 return RedirectToAction("Login", "Auth");
+            }
 
             if (ModelState.IsValid)
             {
-                _context.Add(usuario);
+                var usuario = new Usuario
+                {
+                    NombreUsuario = model.NombreUsuario,
+                    NombreCompleto = model.NombreCompleto,
+                    Correo = model.Correo,
+                    Telefono = model.Telefono,
+                    Contrasena = model.Contrasena,
+                    Rol = model.Rol // Ahora el rol viene del formulario
+                };
+
+                _context.Usuarios.Add(usuario);
                 await _context.SaveChangesAsync();
+
+                Console.WriteLine("💾 Usuario creado exitosamente.");
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+
+            Console.WriteLine("❌ Modelo inválido. Detalles:");
+            foreach (var error in ModelState.Values.SelectMany(e => e.Errors))
+            {
+                Console.WriteLine($"   - {error.ErrorMessage}");
+            }
+
+            return View(model);
         }
 
+
+
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (!UsuarioEsAdministrador())
-                return RedirectToAction("Login", "Auth");
-
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var usuario = await _context.Usuarios.FindAsync(id);
-            if (usuario == null) return NotFound();
+            if (usuario == null)
+            {
+                return NotFound();
+            }
 
-            return View(usuario);
+            var model = new UsuarioViewModel
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                NombreCompleto = usuario.NombreCompleto,
+                Correo = usuario.Correo,
+                Telefono = usuario.Telefono,
+                Contrasena = usuario.Contrasena,
+                Rol = usuario.Rol
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,NombreUsuario,NombreCompleto,Correo,Telefono,Contrasena,Rol")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, UsuarioViewModel model)
         {
             if (!UsuarioEsAdministrador())
+            {
                 return RedirectToAction("Login", "Auth");
-
-            if (id != usuario.Id) return NotFound();
+            }
 
             if (ModelState.IsValid)
             {
+                var usuario = await _context.Usuarios.FindAsync(id);
+                if (usuario == null)
+                {
+                    return NotFound();
+                }
+
+                usuario.NombreUsuario = model.NombreUsuario;
+                usuario.NombreCompleto = model.NombreCompleto;
+                usuario.Correo = model.Correo;
+                usuario.Telefono = model.Telefono;
+                usuario.Contrasena = model.Contrasena;
+                usuario.Rol = model.Rol;
+
                 try
                 {
                     _context.Update(usuario);
@@ -96,13 +156,19 @@ namespace CasoMVC.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!_context.Usuarios.Any(e => e.Id == id))
+                    {
                         return NotFound();
+                    }
                     else
+                    {
                         throw;
+                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(usuario);
+
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int? id)
@@ -112,11 +178,22 @@ namespace CasoMVC.Controllers
 
             if (id == null) return NotFound();
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null) return NotFound();
 
-            return View(usuario);
+            var model = new UsuarioViewModel
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                NombreCompleto = usuario.NombreCompleto,
+                Correo = usuario.Correo,
+                Telefono = usuario.Telefono,
+                Contrasena = usuario.Contrasena,
+                Rol = usuario.Rol
+            };
+
+            ViewBag.UsuarioId = usuario.Id; 
+
+            return View(model);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -127,10 +204,14 @@ namespace CasoMVC.Controllers
                 return RedirectToAction("Login", "Auth");
 
             var usuario = await _context.Usuarios.FindAsync(id);
+            if (usuario == null) return NotFound();
+
             _context.Usuarios.Remove(usuario);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
 
         public async Task<IActionResult> Details(int? id)
         {
@@ -139,11 +220,21 @@ namespace CasoMVC.Controllers
 
             if (id == null) return NotFound();
 
-            var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var usuario = await _context.Usuarios.FirstOrDefaultAsync(m => m.Id == id);
             if (usuario == null) return NotFound();
 
-            return View(usuario);
+            var model = new UsuarioViewModel
+            {
+                NombreUsuario = usuario.NombreUsuario,
+                NombreCompleto = usuario.NombreCompleto,
+                Correo = usuario.Correo,
+                Telefono = usuario.Telefono,
+                Contrasena = usuario.Contrasena,
+                Rol = usuario.Rol
+            };
+
+            return View(model);
         }
+
     }
 }

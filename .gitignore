@@ -22,7 +22,6 @@ obj/
 
 # Publicaciones y cache de publicaciones
 publish/
-wwwroot/
 app.publish/
 
 # Logs y archivos temporales
